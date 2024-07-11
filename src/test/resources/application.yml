@@ -9,6 +9,6 @@ spring:
 kakao:
   rest:
     api:
-      key: ${KAKAO_REST_API_KEY}
+      key: 5ab27bb8d8e62567df111ad5b3dfb312
       url:
         search-address: https://dapi.kakao.com/v2/local/search/keyword.json

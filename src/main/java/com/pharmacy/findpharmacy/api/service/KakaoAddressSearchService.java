@@ -24,7 +24,7 @@ public class KakaoAddressSearchService {
     private final KakaoApiProperties kakaoApiProperties;
 
     public KakaoApiResponseDto requestAddressSearch(String address) {
-        if (StringUtils.hasText(address)) {
+        if (!StringUtils.hasText(address)) {
             return null;
         }
         URI uri = kakaoUriBuilderService.buildUriByAddressSearch(address);
