@@ -1,5 +1,6 @@
 package com.pharmacy.findpharmacy.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,8 +13,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class KakaoApiResponseDto {
 
+    @JsonProperty("meta")
     private MetaDto metaDto;
 
+    @JsonProperty("documents")
     private List<DocumentDto> documentDtoList;
 
 }
