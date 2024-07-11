@@ -31,12 +31,17 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // https://mvnrepository.com/artifact/org.spockframework/spock-core
-    testImplementation 'org.spockframework:spock-core:2.1-groovy-3.0'
+    testImplementation 'org.spockframework:spock-core:2.4-M4-groovy-4.0'
     // https://mvnrepository.com/artifact/org.spockframework/spock-spring
-    testImplementation 'org.spockframework:spock-spring:2.1-groovy-3.0'
+    testImplementation 'org.spockframework:spock-spring:2.4-M4-groovy-4.0'
+
 
     // 런타임에 클래스 기반 spock mock 을 만들기 위해 필요
     testImplementation 'net.bytebuddy:byte-buddy:1.12.10'
+
+    testImplementation 'org.testcontainers:spock:1.19.8'
+    testImplementation 'org.testcontainers:mariadb:1.17.1'
+
 }
 
 tasks.named('test') {
