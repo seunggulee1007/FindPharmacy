@@ -26,5 +26,6 @@ class KakaoUriBuilderServiceTest extends Specification {
 
         then:
         decodedResult == "https://dapi.kakao.com/v2/local/search/keyword.json?query=서울 성북구"
+
     }
 }
