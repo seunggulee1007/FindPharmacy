@@ -4,6 +4,8 @@ import com.pharmacy.findpharmacy.AbstractIntegrationContainerBaseTest
 import com.pharmacy.findpharmacy.pharmacy.entity.Pharmacy
 import org.springframework.beans.factory.annotation.Autowired
 
+import java.time.LocalDateTime
+
 class PharmacyRepositoryTest extends AbstractIntegrationContainerBaseTest {
 
     @Autowired
@@ -59,5 +61,26 @@ class PharmacyRepositoryTest extends AbstractIntegrationContainerBaseTest {
         pharmacies.size() == 1
     }
 
+    def "BaseEntity 등록"() {
+        given:
+        def now = LocalDateTime.now()
+        String address = "서울 특별시 성동구 종암동"
+        String name = "은혜 약국"
+        double latitude = 36.11
+        double longitude = 128.11
+        def pharmacy = Pharmacy.builder()
+                .pharmacyAddress(address)
+                .pharmacyName(name)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build()
+
+        when:
+        def saved = pharmacyRepository.save(pharmacy)
+        def result = pharmacyRepository.findById(saved.id).orElseThrow()
+        then:
+        result.createdDate.isAfter(now)
+        result.modifiedDate.isAfter(now)
+    }
 
 }
