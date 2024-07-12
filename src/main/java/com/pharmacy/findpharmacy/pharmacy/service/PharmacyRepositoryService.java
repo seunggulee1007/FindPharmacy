@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PharmacyRepositoryService {
@@ -24,6 +26,11 @@ public class PharmacyRepositoryService {
         Pharmacy pharmacy = pharmacyRepository.findById(id).orElseThrow(() -> new IllegalStateException("해당 약국이 존재하지 않습니다."));
 
         pharmacy.changePharmacyAddress(address);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Pharmacy> findAll() {
+        return pharmacyRepository.findAll();
     }
 
 }
