@@ -2,7 +2,6 @@ package com.pharmacy.findpharmacy.direction.service;
 
 import com.pharmacy.findpharmacy.api.dto.DocumentDto;
 import com.pharmacy.findpharmacy.direction.entity.Direction;
-import com.pharmacy.findpharmacy.pharmacy.service.PharmacyRepositoryService;
 import com.pharmacy.findpharmacy.pharmacy.service.PharmacySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ public class DirectionService {
     private static final int MAX_SEARCH_COUNT = 3;  // 약국 최대 검색 개수
     private static final double RADIUS_KM = 10.0;    // 반경 10km
     private final PharmacySearchService pharmacySearchService;
-    private final PharmacyRepositoryService pharmacyRepositoryService;
 
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
         if (documentDto == null) {
