@@ -1,7 +1,10 @@
 package com.pharmacy.findpharmacy.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -16,5 +19,9 @@ public class MetaDto {
 
     @JsonProperty("pageable_count")
     private Integer pageableCount;
+
+    public MetaDto(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
 
 }
