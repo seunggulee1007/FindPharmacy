@@ -6,11 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties("kakao.rest.api.url")
-public class KakaoApiUrlProperties {
+@ConfigurationProperties("kakao.rest.api.category-code")
+public class KakaoCategoryApiProperties {
 
-    private String searchAddress;
-
-    private String categoryAddress;
+    private String pharmacy;
+    private String hospital;
 
 }

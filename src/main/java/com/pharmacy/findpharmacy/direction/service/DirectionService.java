@@ -1,15 +1,20 @@
 package com.pharmacy.findpharmacy.direction.service;
 
 import com.pharmacy.findpharmacy.api.dto.DocumentDto;
+import com.pharmacy.findpharmacy.api.service.KakaoCategorySearchService;
 import com.pharmacy.findpharmacy.direction.entity.Direction;
+import com.pharmacy.findpharmacy.direction.repository.DirectionRepository;
 import com.pharmacy.findpharmacy.pharmacy.service.PharmacySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -18,7 +23,18 @@ public class DirectionService {
 
     private static final int MAX_SEARCH_COUNT = 3;  // 약국 최대 검색 개수
     private static final double RADIUS_KM = 10.0;    // 반경 10km
+
     private final PharmacySearchService pharmacySearchService;
+    private final DirectionRepository directionRepository;
+    private final KakaoCategorySearchService kakaoCategorySearchService;
+
+    @Transactional
+    public List<Direction> saveAll(List<Direction> directions) {
+        if (CollectionUtils.isEmpty(directions)) {
+            return Collections.emptyList();
+        }
+        return directionRepository.saveAll(directions);
+    }
 
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
         if (documentDto == null) {
@@ -42,6 +58,28 @@ public class DirectionService {
                 .build())
             .filter(direction -> direction.getDistance() <= RADIUS_KM)
             .sorted(Comparator.comparing(Direction::getDistance))
+            .limit(MAX_SEARCH_COUNT)
+            .toList();
+    }
+
+    public List<Direction> buildDirectionListByCategoryApi(DocumentDto documentDto) {
+        if (Objects.isNull(documentDto)) {
+            return Collections.emptyList();
+        }
+        return kakaoCategorySearchService.requestPharmacyCategorySearch(
+                documentDto.getLatitude(), documentDto.getLongitude(), RADIUS_KM)
+            .getDocumentDtoList()
+            .stream().map(resultDocumentDto ->
+                              Direction.builder()
+                                  .inputAddress(documentDto.getAddressName())
+                                  .inputLatitude(documentDto.getLatitude())
+                                  .inputLongitude(documentDto.getLongitude())
+                                  .targetPharmacyName(resultDocumentDto.getPlaceName())
+                                  .targetAddress(resultDocumentDto.getAddressName())
+                                  .targetLatitude(resultDocumentDto.getLatitude())
+                                  .targetLongitude(resultDocumentDto.getLongitude())
+                                  .distance(resultDocumentDto.getDistance() * 0.001)
+                                  .build())
             .limit(MAX_SEARCH_COUNT)
             .toList();
     }

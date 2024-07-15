@@ -19,3 +19,7 @@ kakao:
       key: ${KAKAO_REST_API_KEY}
       url:
         search-address: https://dapi.kakao.com/v2/local/search/keyword.json
+        category-address: https://dapi.kakao.com/v2/local/search/category.json
+      category-code:
+        pharmacy: "PM9"
+        hospital: "HP8"
