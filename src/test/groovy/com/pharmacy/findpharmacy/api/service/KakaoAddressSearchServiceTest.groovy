@@ -1,7 +1,6 @@
 package com.pharmacy.findpharmacy.api.service
 
 import com.pharmacy.findpharmacy.AbstractIntegrationContainerBaseTest
-import com.pharmacy.findpharmacy.api.dto.KakaoApiResponseDto
 import org.springframework.beans.factory.annotation.Autowired
 
 class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest {
@@ -17,7 +16,7 @@ class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest
         def kakaoApiResponseDto = kakaoAddressSearchService.requestAddressSearch(address);
 
         then:
-        kakaoApiResponseDto == null
+        kakaoApiResponseDto == Optional.empty()
     }
 
 
@@ -26,12 +25,12 @@ class KakaoAddressSearchServiceTest extends AbstractIntegrationContainerBaseTest
         String address = "서울특별시 강남구 역삼동 736-1";
 
         when:
-        KakaoApiResponseDto kakaoApiResponseDto = kakaoAddressSearchService.requestAddressSearch(address);
+        def kakaoApiResponseDto = kakaoAddressSearchService.requestAddressSearch(address);
 
         then:
-        kakaoApiResponseDto != null
-        kakaoApiResponseDto.getMetaDto().getTotalCount() > 0
-        kakaoApiResponseDto.getDocumentDtoList().size() > 0
+        kakaoApiResponseDto != Optional.empty()
+        kakaoApiResponseDto.get().getMetaDto().getTotalCount() > 0
+        kakaoApiResponseDto.get().getDocumentDtoList().size() > 0
     }
-
+    
 }

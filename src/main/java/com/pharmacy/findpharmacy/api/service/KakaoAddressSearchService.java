@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -31,9 +32,9 @@ public class KakaoAddressSearchService {
         maxAttempts = 2,
         backoff = @Backoff(delay = 2000)
     )
-    public KakaoApiResponseDto requestAddressSearch(String address) {
+    public Optional<KakaoApiResponseDto> requestAddressSearch(String address) {
         if (!StringUtils.hasText(address)) {
-            return null;
+            return Optional.empty();
         }
         URI uri = kakaoUriBuilderService.buildUriByAddressSearch(address);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -41,7 +42,7 @@ public class KakaoAddressSearchService {
         HttpEntity<Object> httpEntity = new HttpEntity<>(httpHeaders);
         // kakao api 호출
         ResponseEntity<KakaoApiResponseDto> exchange = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class);
-        return exchange.getBody();
+        return Optional.ofNullable(exchange.getBody());
     }
 
     @Recover
