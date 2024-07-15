@@ -9,13 +9,18 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocumentDto {
 
+    @JsonProperty("place_name")
+    protected String placeName;
+
     @JsonProperty("address_name")
-    private String addressName;
+    protected String addressName;
 
     @JsonProperty("y")
-    private double latitude;
+    protected double latitude;
 
     @JsonProperty("x")
-    private double longitude;
+    protected double longitude;
+
+    protected double distance;
 
 }
